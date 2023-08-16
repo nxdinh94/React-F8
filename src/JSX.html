@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>ReactJs</title>
+</head>
+<body>
+    <ul id="root"></ul>
+</body>
+<script type="text/babel">
+    const reactCourse = 'React F8';
+    const courses = [
+        {name: 'HTML, CSS'},
+        {name: 'Nodejs, Reactjs'},
+        {name: 'Express, Handlebars'},
+    ]
+    const ren = <ul>
+        {
+            courses.map((course, index) => <li key={index}>{course.name}</li>)
+        }
+        </ul>
+
+    ReactDOM.render(ren, document.getElementById('root'));
+</script>
+</html>
