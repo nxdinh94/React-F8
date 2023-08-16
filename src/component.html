@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            width: 340px;
+            height: auto;
+        }
+        .post-item{
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+    <title>ReactJs</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+
+    const courses = [
+            {
+                id: "1",
+                title: "Tổng hợp các sản phẩm của học viên tại F8 👏👏",
+                image: "blog_posts/65/6139fe28a9844.png",
+                description: "Ở bài viết này, mình sẽ hướng dẫn cách để đưa code lên trên Github và tạo Github Pages để xem được trang web mà các bạn đưa lên như thế nào.",
+            },
+            {
+                id: "2",
+                title: "[Phần 1] Tạo dự án ReactJS với Webpack và Babel",
+                image: "blog_posts/279/6153f692d366e.jpg",
+                description: "Ở bài viết này, mình sẽ hướng dẫn cách để đưa code lên trên Github và tạo Github Pages để xem được trang web mà các bạn đưa lên như thế nào.",
+            },
+            {
+                id: "3",
+                title: "Cách đưa code lên GitHub và tạo GitHub Pages",
+                image: "blog_posts/677/615436b218d0a.png",
+                description: "Ở bài viết này, mình sẽ hướng dẫn cách để đưa code lên trên Github và tạo Github Pages để xem được trang web mà các bạn đưa lên như thế nào.",
+            }
+        ];
+    
+
+    //Postitem.js
+    const CourseItem = props =>{
+        return(
+        <div className = "post-item">
+            <img src={props.image} alt="f8"/>
+            <h2 className = "post-title">{props.title}</h2>
+            <p className = "post-desc">{props.description}</p>
+        </div>
+        )
+        
+    }
+
+    //App.js
+    const App = () =>{
+        return (
+            <div id = "wrapper">
+                {courses.map((course) => (
+                    <CourseItem
+                        key = {course.id}
+                        title={course.title}
+                        image = {course.image}
+                        description = {course.description}
+                    />
+                ))}
+            </div>
+        );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</html>
