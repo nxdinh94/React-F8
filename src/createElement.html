@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <title>ReactJs</title>
+</head>
+<body>
+    <h1>Hello</h1>
+</body>
+    <script type="module">
+        //DOM
+        let divDOM = document.createElement('div');
+        divDOM.innerHTML = 'myDiv';
+        divDOM.style.width = '100px';
+        divDOM.style.height = '100px';
+        divDOM.style.backgroundColor = 'red';
+        document.body.appendChild(divDOM);
+
+        //ReactJs
+        
+        const divReact = React.createElement('h1', {
+            title: 'Hello', 
+            className: 'headings'    
+        }, 'Hello guys');
+        
+        //DOM
+        let ulDom = document.createElement('ul');
+        ulDom.setAttribute('id', 'myUl');
+        ulDom.setAttribute('style', 'color: red; font-size: 2rem')
+        let li1Dom = document.createElement('li');
+        li1Dom.innerHTML = 'Javascript';
+        let li2Dom = document.createElement('li');
+        li2Dom.innerHTML = 'ReactJs';
+        ulDom.appendChild(li1Dom);
+        ulDom.appendChild(li2Dom);
+        document.body.appendChild(ulDom);
+
+        //ReactJs
+        const ulReact = React.createElement('ul',
+            {
+                id: 'myUl',
+                style: {
+                    color:'red',
+                    fontSize: '2rem'
+                }
+            }, 
+            React.createElement('li', null, 'Javascript'),
+            React.createElement('li', null, 'ReactJs')
+        );
+
+    </script>
+</html>
