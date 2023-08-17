@@ -17,14 +17,25 @@
     <div id="root"></div>
 </body>
 <script type="text/babel">
+
+
+    const Form = {
+        Input(){
+            return <input />
+        },
+        Checkbox(){
+            return <input type="checkbox" />
+        }
+    }
+
+
     const App = () =>{
+
+        const type='Input';
+        const Component = Form[type];
         return (
             <div id = "wrapper">
-                <button 
-                    onClick = {(event)=>console.log(event.target)}
-                >   
-                    Click me!
-                </button>
+                <Component />
             </div>
         );
     };
