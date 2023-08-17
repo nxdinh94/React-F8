@@ -18,25 +18,29 @@
 </body>
 <script type="text/babel">
 
-
-    const Form = {
-        Input(){
-            return <input />
-        },
-        Checkbox(){
-            return <input type="checkbox" />
+    const Button = ({title, href, onClick}) =>{
+        let Component = href ? 'a' : 'button';
+        const props = {}
+        if(href){
+            props.href = href;
         }
+        if(onClick){
+            props.onClick = onClick;
+        }
+        return (
+            <Component {...props}>{title}</Component>
+        )
+            
+        
     }
 
-
     const App = () =>{
-
-        const type='Input';
-        const Component = Form[type];
         return (
-            <div id = "wrapper">
-                <Component />
-            </div>
+            <Button 
+                title = "Click me!"
+                href="https://fullstack.edu.vn/"
+                onClick={()=>console.log(Math.random())}
+            />
         );
     };
     ReactDOM.render(<App />, document.getElementById('root'));
