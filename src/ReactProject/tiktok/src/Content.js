@@ -18,6 +18,7 @@ IV. Clean up
  - Invoked callback whenever component re-render
  - Invoked callback after component add element to DOM
 2. useEffect(callback, [])
+    - Invoke callback func once time after component mounted
 2. useEffect(callback, [dependences])
 
 -----------------------
@@ -30,11 +31,11 @@ function Content(){
 
     useEffect(()=>{
         fetch('https://jsonplaceholder.typicode.com/posts')
-            //target only the BODY part of the response and to convert it from JSON to javascript
+            // target only the BODY part of the response and to convert it from JSON to javascript
             .then(res => res.json())
             .then(data => setDataUsers(data))
             
-    })
+    }, [])
 
     return(
         <div>
