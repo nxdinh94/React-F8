@@ -1,5 +1,6 @@
 
 
+import { tab } from '@testing-library/user-event/dist/tab';
 import { useEffect, useState } from 'react'
 
 /*
@@ -19,26 +20,44 @@ IV. Clean up
  - Invoked callback after component add element to DOM
 2. useEffect(callback, [])
     - Invoke callback func once time after component mounted
-2. useEffect(callback, [dependences])
+3. useEffect(callback, [dependences])
+    - Invoke callback after dependeces modified
 
 -----------------------
 
 1. Callback always invoked after component mounted
 */
+
+const tabs = ['posts','photos', 'albums'];
+
 function Content(){
     const [DataUsers, setDataUsers] = useState([]);
     const [Posts, setPosts] = useState('');
-
+    const [type, setType] = useState('posts');
+    // console.log(type);
     useEffect(()=>{
-        fetch('https://jsonplaceholder.typicode.com/posts')
+        // console.log('Title changed');
+        fetch(`https://jsonplaceholder.typicode.com/${type}`)
             // target only the BODY part of the response and to convert it from JSON to javascript
             .then(res => res.json())
             .then(data => setDataUsers(data))
             
-    }, [])
-
+    }, [type])
+    
     return(
         <div>
+            {tabs.map(tab => (
+                <button 
+                    key={tab}
+                    style={type === tab ? {
+                        color: '#fff',
+                        backgroundColor : '#333',
+                    } :{}}
+                    onClick={() => {setType(tab)}}
+                >{tab}</button>
+                
+            ))}
+            <br/>
             <input
                 value={Posts}
                 onChange={e => setPosts(e.target.value)}
