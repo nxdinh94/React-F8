@@ -26,14 +26,15 @@ IV. Clean up
 -----------------------
 
 1. Callback always invoked after component mounted
+2. Cleanup function always call before the component unmounted 
 */
 
 const tabs = ['posts','photos', 'albums'];
 
 function Content(){
     const [DataUsers, setDataUsers] = useState([]);
-    const [Posts, setPosts] = useState('');
     const [type, setType] = useState('posts');
+    const [showGoToTop, setShowGoToTop] = useState(false);
     // console.log(type);
     useEffect(()=>{
         // console.log('Title changed');
@@ -44,6 +45,20 @@ function Content(){
             
     }, [type])
     
+    useEffect(() => {
+
+        const handleScroll = () =>setShowGoToTop(window.scrollY>=200)
+        window.addEventListener('scroll', handleScroll)
+
+        //Cleanup function
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+
+    },[])
+
+
+
     return(
         <div>
             {tabs.map(tab => (
@@ -58,13 +73,21 @@ function Content(){
                 
             ))}
             <br/>
-            <input
-                value={Posts}
-                onChange={e => setPosts(e.target.value)}
-            />
             <ul>
                 {DataUsers.map(DataUser => (<li key={DataUser.id}>{DataUser.title}</li>))}
             </ul>
+            {
+                showGoToTop && 
+                    (<button style = {{
+                            position: 'fixed',
+                            right:20,
+                            bottom:20
+                        }}>Go to top
+                        
+                    </button>
+                    )
+                
+            }
         </div>
     )
 }
