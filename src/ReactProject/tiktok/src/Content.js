@@ -1,6 +1,6 @@
 
 
-import { tab } from '@testing-library/user-event/dist/tab';
+import userEvent from '@testing-library/user-event';
 import { useEffect, useState } from 'react'
 
 /*
@@ -29,28 +29,35 @@ IV. Clean up
 
 1. Callback always invoked after component mounted
 2. Cleanup function always call before the component unmounted 
+3. Cleanup function always call before callback invoked (trừ lần component mounted)
 */
 
  
 
 function Content(){
+    const [img, setImg] = useState('');
 
-    const [countdown,setCountdown] = useState(180);
+    useEffect(()=>{
+        return ()=>{
+            //xoa URL khoi bo nho
+            img && URL.revokeObjectURL(img.preview);
+        }
+    })
 
-    useEffect(() => {
-        const timerId = setInterval(() => {
-            setCountdown(pre => pre - 1);
-        }, 1000)
-        return () => clearInterval(timerId);
-    }, []);
-
-
+    const handlePreviewAvt = (e)=> {
+        const file = e.target.files[0];//object
+        file.preview = URL.createObjectURL(file);
+        setImg(file);
+        
+    }
 
     return(
-        
-
         <div>
-            {countdown}
+            <input 
+                type = "file"
+                onChange={handlePreviewAvt}
+            />
+            <img src={img.preview} alt='' width='50%' height='auto'/>
         </div>
     )
 }
