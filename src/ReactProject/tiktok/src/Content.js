@@ -22,6 +22,8 @@ IV. Clean up
     - Invoke callback func once time after component mounted
 3. useEffect(callback, [dependences])
     - Invoke callback after dependeces modified
+4. DOM Event
+5.
 
 -----------------------
 
@@ -29,65 +31,26 @@ IV. Clean up
 2. Cleanup function always call before the component unmounted 
 */
 
-const tabs = ['posts','photos', 'albums'];
+ 
 
 function Content(){
-    const [DataUsers, setDataUsers] = useState([]);
-    const [type, setType] = useState('posts');
-    const [showGoToTop, setShowGoToTop] = useState(false);
-    // console.log(type);
-    useEffect(()=>{
-        // console.log('Title changed');
-        fetch(`https://jsonplaceholder.typicode.com/${type}`)
-            // target only the BODY part of the response and to convert it from JSON to javascript
-            .then(res => res.json())
-            .then(data => setDataUsers(data))
-            
-    }, [type])
-    
+
+    const [countdown,setCountdown] = useState(180);
+
     useEffect(() => {
-
-        const handleScroll = () =>setShowGoToTop(window.scrollY>=200)
-        window.addEventListener('scroll', handleScroll)
-
-        //Cleanup function
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-
-    },[])
+        const timerId = setInterval(() => {
+            setCountdown(pre => pre - 1);
+        }, 1000)
+        return () => clearInterval(timerId);
+    }, []);
 
 
 
     return(
+        
+
         <div>
-            {tabs.map(tab => (
-                <button 
-                    key={tab}
-                    style={type === tab ? {
-                        color: '#fff',
-                        backgroundColor : '#333',
-                    } :{}}
-                    onClick={() => {setType(tab)}}
-                >{tab}</button>
-                
-            ))}
-            <br/>
-            <ul>
-                {DataUsers.map(DataUser => (<li key={DataUser.id}>{DataUser.title}</li>))}
-            </ul>
-            {
-                showGoToTop && 
-                    (<button style = {{
-                            position: 'fixed',
-                            right:20,
-                            bottom:20
-                        }}>Go to top
-                        
-                    </button>
-                    )
-                
-            }
+            {countdown}
         </div>
     )
 }
