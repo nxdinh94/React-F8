@@ -4,6 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//Fake Comment
+function emitcomment(id){
+  setInterval(()=>{
+    window.dispatchEvent(
+      new CustomEvent(`lesson-${id}`,{detail: `The Comment's content of lessson-${id}`})
+  )}, 2000)}
+
+  emitcomment(1);
+  emitcomment(2);
+  emitcomment(3);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>

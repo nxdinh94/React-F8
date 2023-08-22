@@ -1,63 +1,52 @@
 
 
-import userEvent from '@testing-library/user-event';
+
 import { useEffect, useState } from 'react'
 
-/*
-
-I. Update DOM
-II. Call API
-III. Listen DOM Events
-    - Scroll
-    - Resize
-IV. Clean up
-    - Remove lister/ Unsubcribe 
-    - Clear timer
-
-
-1. useEffect(callback)
- - Invoked callback whenever component re-render
- - Invoked callback after component add element to DOM
-2. useEffect(callback, [])
-    - Invoke callback func once time after component mounted
-3. useEffect(callback, [dependences])
-    - Invoke callback after dependeces modified
-4. DOM Event
-5.
-
------------------------
-
-1. Callback always invoked after component mounted
-2. Cleanup function always call before the component unmounted 
-3. Cleanup function always call before callback invoked (trừ lần component mounted)
-*/
-
- 
+const lessons = [
+    {
+        id: 1,
+        name: 'What is ReactJs? Why we should learn ReactJs'
+    },
+    {
+        id: 2,
+        name: 'What is SPA/MPA'
+    },
+    {
+        id: 3,
+        name: 'Arrow function'
+    }
+]
 
 function Content(){
-    const [img, setImg] = useState('');
+    
+    const [lessonId, setLessionId] = useState(1);
 
     useEffect(()=>{
-        return ()=>{
-            //xoa URL khoi bo nho
-            img && URL.revokeObjectURL(img.preview);
+        const handleComment = ({detail}) =>{
+            console.log(detail)
         }
-    })
-
-    const handlePreviewAvt = (e)=> {
-        const file = e.target.files[0];//object
-        file.preview = URL.createObjectURL(file);
-        setImg(file);
         
-    }
+        window.addEventListener(`lesson-${lessonId}`, handleComment)
+        return () =>{
+            window.removeEventListener(`lesson-${lessonId}`, handleComment);
+        }
+    }, [lessonId])
 
     return(
         <div>
-            <input 
-                type = "file"
-                onChange={handlePreviewAvt}
-            />
-            <img src={img.preview} alt='' width='50%' height='auto'/>
+            <ul>
+                {lessons.map(lesson=>(
+                    <li
+                        key={lesson.id}
+                        style={{
+                            color:lessonId === lesson.id?
+                            'red':'#333'
+                        }}
+                        onClick={() => setLessionId(lesson.id)}
+                    >{lesson.name}</li>
+                ))}
+            </ul>
         </div>
     )
 }
