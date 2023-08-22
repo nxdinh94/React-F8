@@ -1,52 +1,22 @@
 
-
-
-import { useEffect, useState } from 'react'
-
-const lessons = [
-    {
-        id: 1,
-        name: 'What is ReactJs? Why we should learn ReactJs'
-    },
-    {
-        id: 2,
-        name: 'What is SPA/MPA'
-    },
-    {
-        id: 3,
-        name: 'Arrow function'
-    }
-]
+import { useEffect, useState, useLayoutEffect } from 'react'
 
 function Content(){
-    
-    const [lessonId, setLessionId] = useState(1);
+    const [count, setCount] = useState(0);
 
-    useEffect(()=>{
-        const handleComment = ({detail}) =>{
-            console.log(detail)
+    useLayoutEffect(()=>{
+        if(count>3){
+            setCount(0);
         }
-        
-        window.addEventListener(`lesson-${lessonId}`, handleComment)
-        return () =>{
-            window.removeEventListener(`lesson-${lessonId}`, handleComment);
-        }
-    }, [lessonId])
+    },[count])
 
+    const handleRun = () =>{
+        setCount(count+1);
+    }
     return(
         <div>
-            <ul>
-                {lessons.map(lesson=>(
-                    <li
-                        key={lesson.id}
-                        style={{
-                            color:lessonId === lesson.id?
-                            'red':'#333'
-                        }}
-                        onClick={() => setLessionId(lesson.id)}
-                    >{lesson.name}</li>
-                ))}
-            </ul>
+            <h1>{count}</h1>
+            <button onClick={handleRun}>Run</button>
         </div>
     )
 }
