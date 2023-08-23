@@ -1,32 +1,20 @@
 
-import { useState , useRef} from 'react';
-
-
-
+import { useCallback, useState } from 'react';
+import Content from './Content';
 
 function App() {
-  const [count, setCount] = useState(60);
+  const [count, setCount] = useState(0);
 
-  const ref = useRef(100);
-  let timerId = useRef();
+  const handleIncrease =useCallback(() =>{
+    setCount(prevCount => prevCount +1)
+  }, []) 
 
-
-  const handleStart = () =>{
-    timerId.current = setInterval(()=>{
-      setCount(prevCount =>prevCount-1
-    )},1000)
-    console.log('start: -> ', timerId.current);
-  };
-    const handleStop  =() =>{
-      clearInterval(timerId.current);
-      console.log('stop: -> ', timerId.current);
-
-    }
   return (
-    <div style={{padding:20}}>
+    <div style={{padding: '10px 32px'}}>
+      <Content handle = {handleIncrease}/>
       <h1>{count}</h1>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={handleStop}>Stop</button>
+      
+      
     </div>
   )
 }

@@ -1,24 +1,15 @@
 
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { memo } from 'react'
 
-function Content(){
-    const [count, setCount] = useState(0);
-
-    useLayoutEffect(()=>{
-        if(count>3){
-            setCount(0);
-        }
-    },[count])
-
-    const handleRun = () =>{
-        setCount(count+1);
-    }
-    return(
-        <div>
-            <h1>{count}</h1>
-            <button onClick={handleRun}>Run</button>
-        </div>
+function Content({ handle }){
+    console.log('content-re-render');
+    return (
+        <>
+            <h2>HELLO BÀ CON</h2>
+            <button onClick={ handle }>Click me</button>
+        </>
+        
     )
 }
 
-export default Content;
+export default memo(Content);
