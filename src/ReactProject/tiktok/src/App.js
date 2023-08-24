@@ -1,5 +1,5 @@
 
-import { useState, useReducer } from "react";
+import { useRef, useReducer } from "react";
 
 /*
   # useState
@@ -13,38 +13,112 @@ import { useState, useReducer } from "react";
   4. Dispatch
 */
 
-//Init state
-const initState = 0;
 
-//Actions
-const UP_ACTION = 'up';
-const DOWN_ACTION = 'down';
+//1. Init state
+const initState = {
+  job: '',
+  jobs: []
+}
+//Action
+const SET_JOB = 'set_job'
+const ADD_JOB = 'add_job'
+const DELETE_JOB = 'delete_job'
 
-//Reducer
-const reducer = (state, action) =>{//Khong chạy ngay khi component mounted
-  console.log('run');
-  switch(action){
-    case UP_ACTION: 
-      return state +1;
-    case DOWN_ACTION:
-      return state-1;
-    default: 
-      throw new Error('Invalid Action');
+const setJob = payLoad =>{
+  return {
+    type: SET_JOB,
+    payLoad
+  }
+}
+const addJob = payLoad =>{
+  return {
+    type: ADD_JOB,
+    payLoad
+  }
+}
+const deleteJob = payLoad =>{
+  return {
+    type: DELETE_JOB,
+    payLoad
   }
 }
 
+//3. Reducer
+const reducer = (state, action) => {
+  console.log('Action: ' ,action)
+  console.log('Prestate: ', state)
+  let newState
+  switch(action.type){
+    case SET_JOB: 
+        newState =  {
+          ...state,
+          job: action.payLoad
+        }
+        break;
+    case ADD_JOB:
+        newState = {
+          ...state,
+          // job: '',
+          jobs : [...state.jobs, action.payLoad]
+        }
+        break;
+    case DELETE_JOB:
+      const newJobs = [...state.jobs]
+      newJobs.splice(action.payLoad, 1);
+      newState = {
+        ...state,//baor luwu state cux
+        jobs: newJobs
+      }
+      break
+    default:
+      throw new Error('Invalid Action');
+  }
+  console.log('new State: ', newState)
+  return newState
+}
+
+
 function App() {
-  const [count, dispatch] = useReducer(reducer, initState)
+
+  const [state, dispatch] = useReducer(reducer, initState);
+
+  const {job, jobs} = state
+
+  const inputRef = useRef();
+
+  const handleSubmit = () =>{
+    dispatch(addJob(job));
+    dispatch(setJob(''));
+    inputRef.current.focus();
+  }
 
   return (
     <div style={{padding: '10px 32px'}}>
-      <h1>{count}</h1>
-      <button
-        onClick={() => dispatch(DOWN_ACTION)}
-      >Down</button>
-      <button
-        onClick={() => dispatch(UP_ACTION)}
-      >Up</button>
+      <h3>Todo</h3>
+      <input
+        ref={inputRef}
+        value={job}
+        placeholder="Enter todo..."
+        onChange={e => {
+          dispatch(setJob(e.target.value))
+        }}
+      />
+      <button onClick={handleSubmit}>Add</button>
+      <ul>
+        {
+          jobs.map((job, index) => (
+            <li key={index}>
+              {job} 
+              <span 
+                onClick={()=>dispatch(deleteJob(index))}
+                style={{color: 'red', cursor: 'pointer'}}
+                >&times;
+                
+              </span> 
+            </li>
+          ))
+        }
+      </ul>
     </div>
   )
 }
