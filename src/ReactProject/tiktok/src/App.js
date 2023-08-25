@@ -7,7 +7,7 @@ function App() {
       <div style={{padding: '0 32px'}}>
         
         <Button/>
-        <Button primary/>{/* return bolean */}
+        <Button primary disabled/>{/* return bolean */}
       </div>
     </GlobalStyles>
   )

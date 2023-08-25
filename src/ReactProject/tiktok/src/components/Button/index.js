@@ -1,8 +1,11 @@
-import styles from './Button.module.css'
+import styles from './Button.module.scss'
 import clsx from 'clsx';
-function Button ({ primary}){
-    const classes = clsx(styles.btn,{[styles.primary]: primary,
-                                        'd-flex': false});
+function Button ({ primary, disabled}){
+    const classes = clsx(styles.btn,{
+        [styles.primary]: primary,
+        'd-flex': false,
+        [styles.disabled]: disabled
+    });
     return (
         <>
             {/* <button className={clsx(styles.btn, styles.active)}>Click me</button>
